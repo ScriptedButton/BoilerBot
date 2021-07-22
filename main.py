@@ -4,33 +4,24 @@
 # BoilerBot V1.1
 # Written by Cole^2
 
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
+import os
+
 from discord.ext import commands
 import discord
 
-import re
-import os
-
-from classes import Parser, Course
-
+from utils import parseCourseInfo
 
 description = "BoilerBot"
 bot = commands.Bot(command_prefix='?', description=description)
 token = os.getenv("BOT_TOKEN")
 
+loop = asyncio.get_event_loop()
+
 if token is None:
     print("Unable to retrieve data for env variable `BOT_TOKEN`. Exitting!")
     exit(0)
-
-
-def parseCourseInfo(subject, number):
-    parser = Parser(subject, number)
-    data = parser.getCourseInfo()
-    title = data.find("h1", {"id": "course_preview_title"}).text
-    description = data.find("hr").next_sibling
-    description = re.sub("Credit Hours: .....", "", description)
-    credits = data.find("strong").next_sibling
-    course = Course(title, description, credits)
-    return course
 
 
 @bot.event
@@ -41,12 +32,13 @@ async def on_ready():
 
 @bot.command()
 async def courseinfo(ctx, subject, number):
-    course = parseCourseInfo(subject, number)
+    course = await loop.run_in_executor(
+        ThreadPoolExecutor(), parseCourseInfo, subject, number
+    )
     embed = discord.Embed(title=course.getTitle(),
                           description=course.getDescription(), color=0xdbce14)
     embed.add_field(name="Credit Hours",
                     value=course.getCredits(), inline=False)
     await ctx.send(embed=embed)
-
 
 bot.run(token)
