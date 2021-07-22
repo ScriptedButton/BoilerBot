@@ -8,12 +8,18 @@ from discord.ext import commands
 import discord
 
 import re
+import os
 
 from classes import Parser, Course
 
-description = "BoilerBot"
 
+description = "BoilerBot"
 bot = commands.Bot(command_prefix='?', description=description)
+token = os.getenv("BOT_TOKEN")
+
+if token is None:
+    print("Unable to retrieve data for env variable `BOT_TOKEN`. Exitting!")
+    exit(0)
 
 
 def parseCourseInfo(subject, number):
@@ -42,4 +48,5 @@ async def courseinfo(ctx, subject, number):
                     value=course.getCredits(), inline=False)
     await ctx.send(embed=embed)
 
-bot.run('. . .')
+
+bot.run(token)
