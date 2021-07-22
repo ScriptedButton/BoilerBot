@@ -1,12 +1,12 @@
 # BoilerBot
 
-BoilerBot is a Discord bot written in Python to assist Purdue University students within the Purdue Discord servers and make
-their everyday lives easier. Written by Cole^2.
+BoilerBot is a Discord bot written in Python to assist Purdue University students within the Purdue Discord servers and make their everyday lives easier.
 
 ## Authors
 
-- [@ScriptedButton (Cole)](https://github.com/ScriptedButton)
-- [@ColexDev (Cole)](https://github.com/ColexDev)
+- [@ScriptedButton](https://github.com/ScriptedButton)
+- [@ColexDev](https://github.com/ColexDev)
+- [@BlazeWasHere](https://github.com/BlazeWasHere)
 
 ## Features
 
