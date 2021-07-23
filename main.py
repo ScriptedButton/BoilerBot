@@ -31,7 +31,7 @@ async def on_ready():
 
 
 @bot.command()
-async def courseinfo(ctx, subject, number):
+async def courseinfo(ctx, subject: str, number: int):
     course = await loop.run_in_executor(
         ThreadPoolExecutor(), parseCourseInfo, subject, number
     )
