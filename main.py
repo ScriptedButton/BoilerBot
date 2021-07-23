@@ -31,14 +31,14 @@ async def on_ready():
 
 
 @bot.command()
-async def courseinfo(ctx, subject, number):
+async def courseinfo(ctx, subject: str, number: int):
     course = await loop.run_in_executor(
         ThreadPoolExecutor(), parseCourseInfo, subject, number
     )
-    embed = discord.Embed(title=course.getTitle(),
-                          description=course.getDescription(), color=0xdbce14)
+    embed = discord.Embed(title=course.title,
+                          description=course.description, color=0xdbce14)
     embed.add_field(name="Credit Hours",
-                    value=course.getCredits(), inline=False)
+                    value=course.credits, inline=False)
     await ctx.send(embed=embed)
 
 bot.run(token)

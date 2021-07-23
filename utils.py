@@ -6,7 +6,7 @@ import re
 from classes import Parser, Course
 
 
-def parseCourseInfo(subject, number):
+def parseCourseInfo(subject: str, number: int) -> Course:
     parser = Parser(subject, number)
     data = parser.getCourseInfo()
 
@@ -17,6 +17,6 @@ def parseCourseInfo(subject, number):
 
     credits = data.find("strong").next_sibling
 
-    course = Course(title, description, credits)
+    course = Course(description, credits, title)
 
     return course
