@@ -1,24 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from dataclasses import dataclass
+
 from bs4 import BeautifulSoup
 import requests
 
 
+@dataclass
 class Course:
-    def __init__(self, title, description, credits):
-        self.title = title
-        self.description = description
-        self.credits = credits
-
-    def getTitle(self):
-        return self.title
-
-    def getDescription(self):
-        return self.description
-
-    def getCredits(self):
-        return self.credits
+    description: str
+    credits: str
+    title: str
 
 
 class Parser:
