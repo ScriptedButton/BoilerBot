@@ -43,9 +43,12 @@ async def courseinfo(ctx, subject: str, number: int):
 
 @bot.command()
 async def menus(ctx):
-    output = str()
-    for location in getMenus():
-        output += (location.name + "\n")
-    await ctx.send(output)
+    menus = await loop.run_in_executor(ThreadPoolExecutor(), getMenus)
+    output = ""
+    for index, location in enumerate(menus, 1):
+        output += ("[{0}] {1}".format(index,location.name)) + "\n"
+    embed = discord.Embed(title="Dining Offerings",
+                          description=output, color=0xdbce14)
+    await ctx.send(embed=embed)
 
 bot.run(token)
