@@ -11,6 +11,18 @@ import requests
 # TODO find a way to verify with purdue server.
 urllib3.disable_warnings()
 
+class Dining:
+    def getMenus(self):
+        req = requests.get("https://api.hfs.purdue.edu/menus/v2/locations", headers={"Content-Type": "application/json"}).json()
+        types = req.get("Types")
+        locations = list()
+        for location in req.get("Location"):
+            list.append(locations, Location(location['Name']))
+        return locations
+
+@dataclass
+class Location:
+    name: str
 
 @dataclass
 class Course:

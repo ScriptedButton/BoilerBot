@@ -11,7 +11,7 @@ import os
 from discord.ext import commands
 import discord
 
-from utils import parseCourseInfo
+from utils import parseCourseInfo, getMenus
 
 description = "BoilerBot"
 bot = commands.Bot(command_prefix='?', description=description)
@@ -40,5 +40,12 @@ async def courseinfo(ctx, subject: str, number: int):
     embed.add_field(name="Credit Hours",
                     value=course.credits, inline=False)
     await ctx.send(embed=embed)
+
+@bot.command()
+async def menus(ctx):
+    output = str()
+    for location in getMenus():
+        output += (location.name + "\n")
+    await ctx.send(output)
 
 bot.run(token)

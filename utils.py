@@ -3,7 +3,7 @@
 
 import re
 
-from classes import Parser, Course
+from classes import Parser, Course, Dining
 
 
 def parseCourseInfo(subject: str, number: int) -> Course:
@@ -20,3 +20,8 @@ def parseCourseInfo(subject: str, number: int) -> Course:
     course = Course(description, credits, title)
 
     return course
+
+def getMenus():
+    dining = Dining()
+    menus = dining.getMenus()
+    return menus
