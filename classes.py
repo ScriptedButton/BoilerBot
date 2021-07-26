@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from dataclasses import dataclass
+from typing import List
 import urllib3
 
 from bs4 import BeautifulSoup, element
@@ -11,18 +12,25 @@ import requests
 # TODO find a way to verify with purdue server.
 urllib3.disable_warnings()
 
+
 class Dining:
     def getMenus(self):
-        req = requests.get("https://api.hfs.purdue.edu/menus/v2/locations", headers={"Content-Type": "application/json"}).json()
-        types = req.get("Types")
-        locations = list()
-        for location in req.get("Location"):
-            list.append(locations, Location(location['Name']))
+        req = requests.get("https://api.hfs.purdue.edu/menus/v2/locations")
+        req = req.json()
+
+        locations: List[Location] = []
+
+        if req.get("Location", None) is not None:
+            for location in req.get("Location"):
+                locations.append(Location(location['Name']))
+
         return locations
+
 
 @dataclass
 class Location:
     name: str
+
 
 @dataclass
 class Course:
@@ -57,3 +65,4 @@ class Parser:
         courseData = soup.find_all("td", class_="block_content_popup")[0]
 
         return courseData
+
