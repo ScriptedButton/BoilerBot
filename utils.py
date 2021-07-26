@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from typing import List
 import re
 
-from classes import Parser, Course, Dining
+from classes import Parser, Course, Dining, Location
 
 
 def parseCourseInfo(subject: str, number: int) -> Course:
@@ -21,7 +22,6 @@ def parseCourseInfo(subject: str, number: int) -> Course:
 
     return course
 
-def getMenus():
-    dining = Dining()
-    menus = dining.getMenus()
-    return menus
+
+def getMenus() -> List[Location]:
+    return Dining().getMenus()
