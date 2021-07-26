@@ -5,6 +5,7 @@
 # Written by Cole^2
 
 from concurrent.futures import ThreadPoolExecutor
+from typing import Dict
 import asyncio
 import os
 
@@ -22,6 +23,8 @@ loop = asyncio.get_event_loop()
 if token is None:
     print("Unable to retrieve data for env variable `BOT_TOKEN`. Exitting!")
     exit(0)
+
+_menus: Dict[int, str] = {}
 
 
 @bot.event
@@ -47,11 +50,26 @@ async def menus(ctx):
     menus = await loop.run_in_executor(ThreadPoolExecutor(), getMenus)
     output = ""
 
-    for index, location in enumerate(menus):
+    for index, location in enumerate(menus, 1):
         output += f"[{index}] {location.name}\n"
+        _menus[index] = location.name
 
     embed = discord.Embed(title="Dining Offerings",
                           description=output, color=0xdbce14)
     await ctx.send(embed=embed)
+
+
+@bot.command()
+async def menu(ctx, opt: int):
+    ret = _menus.get(opt, None)
+
+    if ret is None:
+        await ctx.send(f"Key `{opt}` does not exist in menus.")
+    else:
+        # TODO: get data from `ret`.
+        data = "foo"
+        embed = discord.Embed(title=f"Dining Info [{ret}]",
+                              description=data, color=0xdbce14)
+        await ctx.send(embed=embed)
 
 bot.run(token)
