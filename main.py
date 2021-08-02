@@ -4,15 +4,15 @@
 # BoilerBot V1.1
 # Written by Cole^2
 
-from concurrent.futures import ThreadPoolExecutor
-from typing import Dict
 import asyncio
 import os
+from concurrent.futures import ThreadPoolExecutor
+from typing import Dict
 
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
-from utils import parseCourseInfo, getMenus
+from utils import parse_course_info, get_menus, get_menu
 
 description = "BoilerBot"
 bot = commands.Bot(command_prefix='?', description=description)
@@ -36,7 +36,7 @@ async def on_ready():
 @bot.command()
 async def courseinfo(ctx, subject: str, number: int):
     course = await loop.run_in_executor(
-        ThreadPoolExecutor(), parseCourseInfo, subject, number
+        ThreadPoolExecutor(), parse_course_info, subject, number
     )
     embed = discord.Embed(title=course.title,
                           description=course.description, color=0xdbce14)
@@ -47,7 +47,7 @@ async def courseinfo(ctx, subject: str, number: int):
 
 @bot.command()
 async def menus(ctx):
-    menus = await loop.run_in_executor(ThreadPoolExecutor(), getMenus)
+    menus = await loop.run_in_executor(ThreadPoolExecutor(), get_menus)
     output = ""
 
     for index, location in enumerate(menus, 1):
@@ -67,9 +67,10 @@ async def menu(ctx, opt: int):
         await ctx.send(f"Key `{opt}` does not exist in menus.")
     else:
         # TODO: get data from `ret`.
-        data = "foo"
+        data = await loop.run_in_executor(ThreadPoolExecutor(), get_menu, ret)
         embed = discord.Embed(title=f"Dining Info [{ret}]",
                               description=data, color=0xdbce14)
         await ctx.send(embed=embed)
+
 
 bot.run(token)

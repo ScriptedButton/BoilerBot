@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from typing import List
 import re
+from typing import List
 
-from classes import Parser, Course, Dining, Location
+from classes import Parser, Course, Dining, Location, MenuItem
 
 
-def parseCourseInfo(subject: str, number: int) -> Course:
+def parse_course_info(subject: str, number: int) -> Course:
     parser = Parser(subject, number)
-    data = parser.getCourseInfo()
+    data = parser.get_course_info()
 
     title = data.find("h1", {"id": "course_preview_title"}).text
 
@@ -23,5 +23,9 @@ def parseCourseInfo(subject: str, number: int) -> Course:
     return course
 
 
-def getMenus() -> List[Location]:
-    return Dining().getMenus()
+def get_menus() -> List[Location]:
+    return Dining().get_menus()
+
+
+def get_menu(name) -> List[MenuItem]:
+    return Dining().get_menu(name)
