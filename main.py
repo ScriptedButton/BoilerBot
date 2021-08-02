@@ -33,6 +33,7 @@ async def on_ready():
     print('------')
 
 
+
 @bot.command(name="courseinfo")
 async def course_info(ctx, subject: str, number: int):
     course = await loop.run_in_executor(
@@ -62,15 +63,19 @@ async def menus(ctx):
 @bot.command()
 async def menu(ctx, opt: int):
     ret = _menus.get(opt, None)
+    emojis = ['🥓', '🍕', '🍔']
 
     if ret is None:
         await ctx.send(f"Key `{opt}` does not exist in menus.")
     else:
-        # TODO: get data from `ret`.
-        data = await loop.run_in_executor(ThreadPoolExecutor(), get_menu, ret)
+        # TODO: Handle reactions.`.
+        menu = await loop.run_in_executor(ThreadPoolExecutor(), get_menu, ret)
+        output = "\n".join([str(x.Name) for x in menu.Meals])
         embed = discord.Embed(title=f"Dining Info [{ret}]",
-                              description=data, color=0xdbce14)
-        await ctx.send(embed=embed)
+                              description=output, color=0xdbce14)
+        msg = await ctx.send(embed=embed)
+        for emoji in emojis:
+            await msg.add_reaction(emoji)
 
 
 bot.run(token)

@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import urllib3
-
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List
+from types import SimpleNamespace
+import json
+
+import urllib3
+
 
 import requests
 from bs4 import BeautifulSoup, element
@@ -12,6 +15,17 @@ from bs4 import BeautifulSoup, element
 # disable 'InsecureRequestWarning: Unverified HTTPS request' warning
 # TODO find a way to verify with purdue server.
 urllib3.disable_warnings()
+
+LOCATIONS_URL = "https://api.hfs.purdue.edu/menus/v2/locations/"
+
+@dataclass
+class Meal:
+    name: str
+    start_time: str
+    end_time: str
+    stations: dict
+    def __str__(self):
+        return self.name
 
 
 class Dining:
@@ -29,24 +43,21 @@ class Dining:
 
     # this needs to be updated to work better, just wanted to get the basics down
     def get_menu(self, name):
-        output = ""
+        """Gets the menu of a specific location.
+           @name: name of the location."""
         time = datetime.now()
         ftime = time.strftime("%m-%d-%Y")
-        req = requests.get("https://api.hfs.purdue.edu/menus/v2/locations/{0}/{1}".format(name, ftime)).json()
+        req = requests.get(f"https://api.hfs.purdue.edu/menus/v2/locations/{name}/{ftime}").text
         # print(req)
-        for meal in req.get("Meals"):
-            output += (meal.get("Name") + "\n")
-        return output
+        meals = json.loads(req, object_hook=lambda d: SimpleNamespace(**d))
+
+        return meals
 
 
 @dataclass
 class Location:
     name: str
 
-
-@dataclass
-class MenuItem:
-    name: str
 
 
 @dataclass

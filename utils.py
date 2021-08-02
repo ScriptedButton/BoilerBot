@@ -4,7 +4,7 @@
 import re
 from typing import List
 
-from classes import Parser, Course, Dining, Location, MenuItem
+from classes import Parser, Course, Dining, Location, Meal
 
 
 def parse_course_info(subject: str, number: int) -> Course:
@@ -16,9 +16,9 @@ def parse_course_info(subject: str, number: int) -> Course:
     description = data.find("hr").next_sibling
     description = re.sub("Credit Hours: .....", "", description)
 
-    credits = data.find("strong").next_sibling
+    course_credits = data.find("strong").next_sibling
 
-    course = Course(description, credits, title)
+    course = Course(description, course_credits, title)
 
     return course
 
@@ -27,5 +27,5 @@ def get_menus() -> List[Location]:
     return Dining().get_menus()
 
 
-def get_menu(name) -> List[MenuItem]:
+def get_menu(name) -> List[Meal]:
     return Dining().get_menu(name)
