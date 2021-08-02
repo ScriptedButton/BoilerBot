@@ -33,8 +33,8 @@ async def on_ready():
     print('------')
 
 
-@bot.command()
-async def courseinfo(ctx, subject: str, number: int):
+@bot.command(name="courseinfo")
+async def course_info(ctx, subject: str, number: int):
     course = await loop.run_in_executor(
         ThreadPoolExecutor(), parse_course_info, subject, number
     )

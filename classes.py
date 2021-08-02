@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import urllib3
 
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List
 
 import requests
-import urllib3
 from bs4 import BeautifulSoup, element
 
 # disable 'InsecureRequestWarning: Unverified HTTPS request' warning
