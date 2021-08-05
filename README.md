@@ -11,7 +11,7 @@ BoilerBot is a Discord bot written in Python to assist Purdue University student
 ## Features
 
 - Information on all Purdue classes (Credit hours, description, etc)
-- Information on Dining (Menus, hours, etc) [COMING SOON]
+- Information on Dining Menus
 
 ## FAQ
 
