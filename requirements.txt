@@ -1,3 +1,4 @@
-discord.py==2.0.0a
+git+https://github.com/Rapptz/discord.py
+git+https://github.com/ScriptedButton/RateMyProfessorAPI
 lxml==4.6.3
 beautifulsoup4==4.9.3
