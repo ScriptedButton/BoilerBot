@@ -8,21 +8,27 @@ import asyncio
 import os
 from concurrent.futures import ThreadPoolExecutor
 
+import ratemyprofessor
 import discord
 from discord.ext import commands
 
-from purdue.models.Dining import Dining
+from purdue.models.dining import Dining
 
 from bbclasses import MenuDropdownView
 from utils import parse_course_info
-import ratemyprofessor
 
-description = "BoilerBot"
-bot = commands.Bot(command_prefix='?', description=description, status="Boiler Up! Hammer Down!", help_command=None)
+DESCRIPTION = "BoilerBot"
+bot = commands.Bot(
+    command_prefix='?',
+    description=DESCRIPTION,
+    status="Boiler Up! Hammer Down!",
+    help_command=None
+)
 
 token = os.getenv("BOT_TOKEN")
 
 PURDUE_COLOR_CODE = 0xCEB888
+ERROR_OCCURRED_TITLE = "An Error Occured"
 
 loop = asyncio.get_event_loop()
 
@@ -31,13 +37,13 @@ if token is None:
     exit(0)
 
 
-
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
     bot_status = discord.Streaming(name="Boiler Up! Hammer Down!", url="https://purdue.edu")
     await bot.change_presence(activity=bot_status)
+
 
 @bot.command()
 async def help(ctx):
@@ -57,12 +63,18 @@ async def menus(ctx):
         dining = Dining()
         await dining.load()
         locations = dining.locations
-        locations_embed = discord.Embed(title="[All Locations]",
-                              description="\n".join([str(x.name) for x in locations]), color=PURDUE_COLOR_CODE)
+        locations_embed = discord.Embed(
+            title="[All Locations]",
+            description="\n".join([str(x.name) for x in locations]),
+            color=PURDUE_COLOR_CODE
+        )
         menu_dropdown_view_obj = MenuDropdownView(ctx.message.author.id, dining)
         await ctx.send(embed=locations_embed, view=menu_dropdown_view_obj)
     except Exception as e:
-        error_embed = discord.Embed(title="An Error Occured", description=f"{str(e)}\n\nThis usually means Purdue has no data on an item!", color=discord.Color.red())
+        error_embed = discord.Embed(
+            title=ERROR_OCCURRED_TITLE,
+            description=f"{str(e)}\n\nThis usually means Purdue has no data on an item!",
+            color=discord.Color.red())
         await ctx.send(embed=error_embed)
 
 
@@ -78,21 +90,37 @@ async def course_info(ctx, subject: str, number: int):
                         value=course.credits, inline=False)
         await ctx.send(embed=embed)
     except Exception as e:
-        error_embed = discord.Embed(title="An Error Occured",
-                                    description=f"**{str(e)}\n\nThis usually means Purdue has no data on an item!**",
-                                    color=discord.Color.red())
+        error_embed = discord.Embed(
+            title=ERROR_OCCURRED_TITLE,
+            description=f"**{str(e)}\n\nThis usually means Purdue has no data on an item!**",
+            color=discord.Color.red()
+        )
         await ctx.send(embed=error_embed)
+
 
 @bot.command(name="rateprof")
 async def rate_prof(ctx, *, name):
     try:
         if name.lower() == "mitch daniels":
-            prof_embed = discord.Embed(title="[Mitch Daniels]", description="Literally a god among men", color=PURDUE_COLOR_CODE)
+            prof_embed = discord.Embed(
+                title="[Mitch Daniels]",
+                description="Literally a god among men",
+                color=PURDUE_COLOR_CODE
+            )
             await ctx.send(embed=prof_embed)
         else:
-            purdue = await loop.run_in_executor(ThreadPoolExecutor(), ratemyprofessor.get_school_by_name, "Purdue")
+            purdue = await loop.run_in_executor(
+                ThreadPoolExecutor(),
+                ratemyprofessor.get_school_by_name,
+                "Purdue"
+            )
             print(str(purdue))
-            prof = await loop.run_in_executor(ThreadPoolExecutor(), ratemyprofessor.get_professor_by_school_and_name, purdue, name)
+            prof = await loop.run_in_executor(
+                ThreadPoolExecutor(),
+                ratemyprofessor.get_professor_by_school_and_name,
+                purdue,
+                name
+            )
             print(str(prof))
             would_take_again = None
             if prof.would_take_again is int:
@@ -105,12 +133,19 @@ async def rate_prof(ctx, *, name):
                    f"\nNumber of Ratings: **{prof.num_ratings or None}**" \
                    f"\nDepartment: **{prof.department or None}**" \
                    f"\nWould Take Again: **{would_take_again or None}**"
-            prof_embed = discord.Embed(title=f"[{prof.name or None}]", description=desc, color=PURDUE_COLOR_CODE)
+            prof_embed = discord.Embed(
+                title=f"[{prof.name or None}]",
+                description=desc,
+                color=PURDUE_COLOR_CODE
+            )
             await ctx.send(embed=prof_embed)
     except Exception:
-        error_embed = discord.Embed(title="An Error Occured",
-                                    description=f"**This professor does not currently exist in the RateMyProf database!**",
-                                    color=discord.Color.red())
+        error_embed = discord.Embed(
+            title=ERROR_OCCURRED_TITLE,
+            description="**This professor does not currently exist in the RateMyProf database!**",
+            color=discord.Color.red()
+        )
         await ctx.send(embed=error_embed)
+
 
 bot.run(token)

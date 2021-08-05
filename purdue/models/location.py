@@ -1,9 +1,9 @@
 import datetime
 from dataclasses import dataclass
-from purdue.models.Address import Address
-from purdue.models.Station import Station
-from purdue.models.Item import Item
-from purdue.models.Meal import Meal
+from purdue.models.address import Address
+from purdue.models.station import Station
+from purdue.models.item import Item
+from purdue.models.meal import Meal
 import aiohttp
 from typing import Optional
 

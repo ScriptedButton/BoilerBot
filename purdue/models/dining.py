@@ -1,6 +1,6 @@
 import aiohttp
-from purdue.models.Location import Location
-from purdue.models.Address import Address
+from purdue.models.location import Location
+from purdue.models.address import Address
 
 class Dining:
     def __init__(self):

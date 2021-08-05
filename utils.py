@@ -1,4 +1,4 @@
-from purdue.models.CourseParser import Parser
+from purdue.models.course_parser import Parser
 from purdue.models import Course
 import re
 
