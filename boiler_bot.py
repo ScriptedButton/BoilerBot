@@ -18,7 +18,7 @@ from utils import parse_course_info
 
 DESCRIPTION = "BoilerBot"
 PURDUE_COLOR_CODE = 0xCEB888
-ERROR_OCCURRED_TITLE = "An Error Occured"
+ERROR_OCCURRED_TITLE = "An Error Occurred"
 
 bot = commands.Bot(
     command_prefix='?',
@@ -32,7 +32,7 @@ token = os.getenv("BOT_TOKEN")
 loop = asyncio.get_event_loop()
 
 if token is None:
-    print("Unable to retrieve data for env variable `BOT_TOKEN`. Exitting!")
+    print("Unable to retrieve data for env variable `BOT_TOKEN`. Exiting!")
     exit(0)
 
 
