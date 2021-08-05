@@ -1,11 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
+from purdue.models.CourseParser import Parser
+from purdue.models import Course
 import re
-from typing import List
-
-from classes import Parser, Course, Dining, Location, Meal
-
 
 def parse_course_info(subject: str, number: int) -> Course:
     parser = Parser(subject, number)
@@ -21,11 +16,3 @@ def parse_course_info(subject: str, number: int) -> Course:
     course = Course(description, course_credits, title)
 
     return course
-
-
-def get_menus() -> List[Location]:
-    return Dining().get_menus()
-
-
-def get_menu(name) -> List[Meal]:
-    return Dining().get_menu(name)
