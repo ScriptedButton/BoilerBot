@@ -2,9 +2,9 @@ import aiohttp
 
 class Dining:
     def __init__(self):
-        from purdue.models.location import Location
+        import purdue.models
         self._LOCATION_URL = "https://api.hfs.purdue.edu/menus/v2/locations"
-        self._locations: list[Location] = list()
+        self._locations: list[purdue.models.Location] = list()
 
     def get_location(self, name):
         for location in self.locations:
@@ -12,12 +12,12 @@ class Dining:
                 return location
 
     async def load(self):
-        from purdue.models.address import Address
+        import purdue.models
         async with aiohttp.ClientSession() as session:
             async with session.get(self._LOCATION_URL) as response:
                 response_json = await response.json()
                 for location in response_json.get("Location"):
-                    location_obj = location.Location(
+                    location_obj = purdue.models.Location(
                         id=location.get("LocationId"),
                         name=location.get("Name"),
                         formal_name=location.get("FormalName"),
@@ -29,7 +29,7 @@ class Dining:
                         google_place_id=location.get("GooglePlaceId"),
                         type=location.get("Type"),
                         transact_mobile_order_id=location.get("TransactMobileOrderId"),
-                        address=address.Address(
+                        address=purdue.models.Address(
                             street=location.get("Address").get("Street"),
                             city=location.get("Address").get("City"),
                             state=location.get("Address").get("State"),

@@ -12,7 +12,6 @@ import ratemyprofessor
 import discord
 from discord.ext import commands
 
-from purdue.models.dining import Dining
 
 from bot_classes import MenuDropdownView
 from utils import parse_course_info
@@ -47,7 +46,7 @@ async def on_ready():
 
 @bot.command()
 async def help(ctx):
-    desc = "[1] ?course_info [subject] [number] - Gives you course information." \
+    desc = "[1] ?courseinfo [subject] [number] - Gives you course information." \
            "\n[2] ?menus - Pulls dining menus from Purdue." \
            "\n[3] ?rateprof [name] - Gives details about a specific professor."
     help_embed = discord.Embed(title="[BoilerBot Documentation]",
@@ -59,8 +58,9 @@ async def help(ctx):
 
 @bot.command()
 async def menus(ctx):
+    import purdue.models
     try:
-        dining = Dining()
+        dining = purdue.models.Dining()
         await dining.load()
         locations = dining.locations
         locations_embed = discord.Embed(
@@ -123,7 +123,8 @@ async def rate_prof(ctx, *, name):
             )
             print(str(prof))
             would_take_again = None
-            if prof.would_take_again is int:
+            print(prof.would_take_again)
+            if type(prof.would_take_again) == float or int:
                 would_take_again = f"{round(prof.would_take_again)}%"
             else:
                 would_take_again = "N/A"

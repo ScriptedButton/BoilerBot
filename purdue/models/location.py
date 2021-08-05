@@ -1,9 +1,10 @@
 import datetime
 from dataclasses import dataclass
-import purdue.models.address as address
-import purdue.models.meal as meal
 import aiohttp
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from purdue.models import Address, Meal
 
 
 @dataclass
@@ -19,8 +20,8 @@ class Location:
     google_place_id: str
     type: str
     transact_mobile_order_id: str
-    address: address.Address
-    meals: Optional[list[meal.Meal]]
+    address: 'Address'
+    meals: Optional[list['Meal']]
 
     def get_meal_by_name(self, name):
         for meal in self.meals:
@@ -33,6 +34,7 @@ class Location:
                 return station
 
     async def get_meals(self):
+        from purdue.models import Item, Station, Meal
         async with aiohttp.ClientSession() as session:
             async with session.get(
                     f"https://api.hfs.purdue.edu/menus/v2/locations/{self.name}/{datetime.date.today()}"
@@ -44,14 +46,14 @@ class Location:
                         item_objects: list[item.Item] = list()
                         for item in station.get("Items"):
                             item_objects.append(
-                                item.Item(
+                                Item(
                                     id=item.get("Id"),
                                     name=item.get("Name"),
                                     is_vegetarian=item.get("IsVegetarian")
                                 )
                             )
                         station_objects.append(
-                            station.Station(
+                            Station(
                                 name=station.get("Name"),
                                 items=item_objects
 
@@ -59,7 +61,7 @@ class Location:
 
                     self.meals = list()
                     self.meals.append(
-                        meal.Meal(
+                        Meal(
                             id=meal.get("Id"),
                             name=meal.get("Name"),
                             order=meal.get("Order"),

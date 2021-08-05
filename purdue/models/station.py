@@ -1,7 +1,10 @@
 from dataclasses import dataclass
-import purdue.models.item as item
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from purdue.models import Item
 
 @dataclass
 class Station:
     name: str
-    items: list[item.Item]
+    items: list['Item']

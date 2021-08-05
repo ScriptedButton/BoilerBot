@@ -1,5 +1,8 @@
 from dataclasses import dataclass
-from purdue.models import Location, Station
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from purdue.models import Location, Station
 
 
 @dataclass
@@ -9,6 +12,6 @@ class Meal:
     order: int
     status: str
     type: str
-    location: Location
-    stations: list[Station]
+    location: 'Location'
+    stations: list['Station']
     hours: dict[str, str]
