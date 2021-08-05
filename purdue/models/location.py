@@ -1,9 +1,7 @@
 import datetime
 from dataclasses import dataclass
-from purdue.models.address import Address
-from purdue.models.station import Station
-from purdue.models.item import Item
-from purdue.models.meal import Meal
+import purdue.models.address as address
+import purdue.models.meal as meal
 import aiohttp
 from typing import Optional
 
@@ -21,8 +19,8 @@ class Location:
     google_place_id: str
     type: str
     transact_mobile_order_id: str
-    address: Address
-    meals: Optional[list[Meal]]
+    address: address.Address
+    meals: Optional[list[meal.Meal]]
 
     def get_meal_by_name(self, name):
         for meal in self.meals:
@@ -41,19 +39,19 @@ class Location:
             ) as response:
                 response_json = await response.json()
                 for meal in response_json.get("Meals"):
-                    station_objects: list[Station] = list()
+                    station_objects: list[station.Station] = list()
                     for station in meal.get("Stations"):
-                        item_objects: list[Item] = list()
+                        item_objects: list[item.Item] = list()
                         for item in station.get("Items"):
                             item_objects.append(
-                                Item(
+                                item.Item(
                                     id=item.get("Id"),
                                     name=item.get("Name"),
                                     is_vegetarian=item.get("IsVegetarian")
                                 )
                             )
                         station_objects.append(
-                            Station(
+                            station.Station(
                                 name=station.get("Name"),
                                 items=item_objects
 
@@ -61,7 +59,7 @@ class Location:
 
                     self.meals = list()
                     self.meals.append(
-                        Meal(
+                        meal.Meal(
                             id=meal.get("Id"),
                             name=meal.get("Name"),
                             order=meal.get("Order"),

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from purdue.models import Item
+import purdue.models.item as item
 
 @dataclass
 class Station:
     name: str
-    items: list[Item]
+    items: list[item.Item]

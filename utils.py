@@ -1,5 +1,5 @@
 from purdue.models.course_parser import Parser
-from purdue.models import Course
+from purdue.models.course import Course
 import re
 
 def parse_course_info(subject: str, number: int) -> Course:
