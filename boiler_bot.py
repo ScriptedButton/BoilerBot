@@ -22,7 +22,7 @@ PURDUE_COLOR_CODE = 0xCEB888
 ERROR_OCCURRED_TITLE = "An Error Occurred"
 
 bot = commands.Bot(
-    command_prefix='$',
+    command_prefix='?',
     description=DESCRIPTION,
     status="Boiler Up! Hammer Down!",
     help_command=None
