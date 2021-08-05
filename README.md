@@ -15,6 +15,15 @@ BoilerBot uses [purdue.py](https://github.com/ScriptedButton/purdue.py), a Pytho
 - Information on all Purdue classes (Credit hours, description, etc)
 - Information on Dining Menus
 
+## Installation
+To install [BoilerBot](https://github.com/ScriptedButton/BoilerBot) follow these steps:
+
+1) `pip install -r requirements.txt`
+
+2) `python -m pip install git+https://github.com/ScriptedButton/RateMyProfessorAPI`
+
+3) Set ENV variable BOT_TOKEN to discord API token.
+
 ## FAQ
 
 #### Q: Can I use BoilerBot in my own server or only in official servers?
