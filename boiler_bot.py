@@ -14,7 +14,7 @@ from discord.ext import commands
 
 from purdue.models.dining import Dining
 
-from bbclasses import MenuDropdownView
+from bot_classes import MenuDropdownView
 from utils import parse_course_info
 
 DESCRIPTION = "BoilerBot"
