@@ -124,7 +124,7 @@ async def rate_prof(ctx, *, name):
             print(str(prof))
             would_take_again = None
             print(prof.would_take_again)
-            if type(prof.would_take_again) == float or int:
+            if type(prof.would_take_again) == (float or int) and prof.would_take_again > 0:
                 would_take_again = f"{round(prof.would_take_again)}%"
             else:
                 would_take_again = "N/A"
