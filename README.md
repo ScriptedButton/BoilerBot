@@ -15,6 +15,13 @@ BoilerBot uses [purdue.py](https://github.com/ScriptedButton/purdue.py), a Pytho
 - Information on all Purdue classes (Credit hours, description, etc)
 - Information on Dining Menus
 
+## Discord.py Note
+Since the bot uses experimental features such as components, you'll have to install the alpha version of [discord.py](https://github.com/Rapptz/discord.py#installing).
+
+Click the link for more information.
+
+
+
 ## Installation
 To install [BoilerBot](https://github.com/ScriptedButton/BoilerBot) follow these steps:
 
