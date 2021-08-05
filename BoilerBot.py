@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# BoilerBot V1.1
+# BoilerBot V2.0
 # Written by Cole^2
 
 import asyncio
