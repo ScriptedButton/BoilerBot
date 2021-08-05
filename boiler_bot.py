@@ -17,6 +17,9 @@ from bot_classes import MenuDropdownView
 from utils import parse_course_info
 
 DESCRIPTION = "BoilerBot"
+PURDUE_COLOR_CODE = 0xCEB888
+ERROR_OCCURRED_TITLE = "An Error Occured"
+
 bot = commands.Bot(
     command_prefix='?',
     description=DESCRIPTION,
@@ -25,9 +28,6 @@ bot = commands.Bot(
 )
 
 token = os.getenv("BOT_TOKEN")
-
-PURDUE_COLOR_CODE = 0xCEB888
-ERROR_OCCURRED_TITLE = "An Error Occured"
 
 loop = asyncio.get_event_loop()
 
