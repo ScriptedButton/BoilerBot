@@ -6,7 +6,8 @@
 
 import asyncio
 import os
-import string
+import re
+import itertools
 from concurrent.futures import ThreadPoolExecutor
 
 import ratemyprofessor
@@ -22,7 +23,7 @@ PURDUE_COLOR_CODE = 0xCEB888
 ERROR_OCCURRED_TITLE = "An Error Occurred"
 
 bot = commands.Bot(
-    command_prefix='?',
+    command_prefix='$',
     description=DESCRIPTION,
     status="Boiler Up! Hammer Down!",
     help_command=None
@@ -82,12 +83,21 @@ async def menus(ctx):
 @bot.command(name="courseinfo")
 async def course_info(ctx, subject: str, number: int = 0):
     try:
+        num_string = str()
+        # if (len(subject) > 4):
+            # y = re.search('\d+', f"{subject}{str(number)}").group()
+            # x = subject.split(str(y))
+            # subject = x[0]
+            # num_string = x[1]
+
         if (len(str(number)) < 5):
-            numString = str(number)
-            numString += "00"
+            num_string = str(number)
+            num_string += "00"
+        else:
+            num_string = str(number)
 
         course = await loop.run_in_executor(
-            ThreadPoolExecutor(), parse_course_info, subject, int(numString)
+            ThreadPoolExecutor(), parse_course_info, subject, int(num_string)
         )
         embed = discord.Embed(title=course.title,
                               description=course.description, color=PURDUE_COLOR_CODE)
