@@ -23,6 +23,7 @@ PURDUE_COLOR_CODE = 0xCEB888
 ERROR_OCCURRED_TITLE = "An Error Occurred"
 
 intents = discord.Intents.default()
+intents.message_content = True
 
 bot = commands.Bot(
     command_prefix='$',
