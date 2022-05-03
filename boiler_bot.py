@@ -166,7 +166,7 @@ async def rate_prof(ctx, *, name):
 
         
 async def main():
-    async with client:
+    async with bot:
         await bot.start(token)
 
 asyncio.run(main())
