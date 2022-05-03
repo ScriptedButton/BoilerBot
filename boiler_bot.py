@@ -164,5 +164,9 @@ async def rate_prof(ctx, *, name):
         )
         await ctx.send(embed=error_embed)
 
+        
+async def main():
+    async with client:
+        await bot.start(token)
 
-bot.run(token)
+asyncio.run(main())
