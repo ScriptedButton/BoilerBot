@@ -22,11 +22,14 @@ DESCRIPTION = "BoilerBot"
 PURDUE_COLOR_CODE = 0xCEB888
 ERROR_OCCURRED_TITLE = "An Error Occurred"
 
+intents = discord.Intents.default()
+
 bot = commands.Bot(
     command_prefix='$',
     description=DESCRIPTION,
     status="Boiler Up! Hammer Down!",
-    help_command=None
+    help_command=None,
+    intents=intents
 )
 
 token = os.getenv("BOT_TOKEN")
